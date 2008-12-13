@@ -20,9 +20,14 @@
 	
 	$.fn.abbrev = function() {
 		$(this).each(function() {
-			$("#abbreviator-tmp-span").appendTo(this);
 			
+			// Grab unaltered content FIRST
 			var content = $(this).html();
+			
+			// Append our tmp span to the container element we're about
+			// to abbreviate, so that it inherits the containers CSS properties
+			// (font, padding, etc.)
+			$("#abbreviator-tmp-span").appendTo(this);
 			
 			var containerWidth = $(this).width();
 			var contentWidth = $("#abbreviator-tmp-span").html(content).width();
@@ -49,7 +54,7 @@
 			// be destroyed in the line below ...
 			$('#abbreviator-tmp-span').appendTo('body');
 			
-			$(this).html(ellipsifyString(abbrevContent));
+			$(this).html(abbrString(ellipsifyString(abbrevContent), content));
 		});
 	}
 	
@@ -57,5 +62,9 @@
 	
 	function ellipsifyString(s) {
 		return s + '&hellip;';
+	}
+	
+	function abbrString(s, full) {
+		return '<abbr title="' + full + '">' + s + '</abbr>';
 	}
 })(jQuery);
