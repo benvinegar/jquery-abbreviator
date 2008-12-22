@@ -13,8 +13,11 @@
 
 (function($) {
 	$(function() { 
-		$('body').append(
-			'<span id="abbreviator-tmp-span" style="display: none; position: absolute"/>'
+		// NOTE: We have to use a <span> inside a max-width <div> for IE6
+		$('body').append('\
+			<div id="abbreviator-tmp-div" style="width:9999px; left:-9999px; top:-9999px; display:block; position: absolute">\
+				<span id="abbreviator-tmp-span"></span>\
+			</div>'
 		);
 	});
 	
@@ -24,10 +27,10 @@
 			// Grab unaltered content FIRST
 			var content = $(this).html();
 			
-			// Append our tmp span to the container element we're about
+			// Append our tmp div to the container element we're about
 			// to abbreviate, so that it inherits the containers CSS properties
 			// (font, padding, etc.)
-			$("#abbreviator-tmp-span").appendTo(this);
+			$("#abbreviator-tmp-div").appendTo(this);
 			
 			var containerWidth = $(this).width();
 			var contentWidth = $("#abbreviator-tmp-span").html(content).width();
@@ -36,23 +39,26 @@
 			// to the next element
 			
 			if (contentWidth <= containerWidth) {
+				$('#abbreviator-tmp-div').appendTo('body');
 				return;
 			}
 			
-			// Otherwise, shorten content to fit
+			// Instead of just removing characters one-by-one until the content
+			// fits (slow), we estimate a good starting place by taking the %
+			// covered in pixel space and shorten the string by that amount.
 			
 			var coverage = containerWidth / contentWidth;
 			var l = content.length;
 
 			abbrevContent = content.substr(0, parseInt(l * coverage));
-		   	
+		   
 			while ($('#abbreviator-tmp-span').html(ellipsifyString(abbrevContent)).width() >= containerWidth) {
 				abbrevContent = abbrevContent.substring(0, abbrevContent.length - 1);
 			}
 			
 			// Return our tmp span back to the <body> element; otherwise it'll
 			// be destroyed in the line below ...
-			$('#abbreviator-tmp-span').appendTo('body');
+			$('#abbreviator-tmp-div').appendTo('body');
 			
 			$(this).html(abbrString(ellipsifyString(abbrevContent), content));
 		});
