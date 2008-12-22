@@ -1,0 +1,10 @@
+body { 
+	font-family: "helvetica neue", helvetica, arial, sans-serif; 
+	font-size: 13px;
+}
+table { background-color: #eee; }
+th, td { padding: 5px 30px; text-align: left;}
+td { 
+	border-top: 1px dotted #888;	
+}
+td { width: 100px; font-size: 150%; }
