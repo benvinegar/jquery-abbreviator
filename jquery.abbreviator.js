@@ -50,7 +50,7 @@
       var coverage = containerWidth / contentWidth;
       var l = content.length;
 
-      abbrevContent = content.substr(0, parseInt(l * coverage));
+      abbrevContent = content.substr(0, parseInt(l * coverage, 10));
 
       while ($('#abbreviator-tmp-span').html(ellipsifyString(abbrevContent)).width() >= containerWidth) {
         abbrevContent = abbrevContent.substring(0, abbrevContent.length - 1);
@@ -62,7 +62,7 @@
 
       $(this).html(abbrString(ellipsifyString(abbrevContent), content));
     });
-  }
+  };
 
   // Private functions
 
