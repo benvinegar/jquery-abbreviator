@@ -7,11 +7,7 @@
  *
  * This work is distributed under the MIT License:
  *   http://www.opensource.org/licenses/mit-license.php
- *
- * Copyright 2008 Ben Vinegar [ ben ! benlog dot org ]
- * Copyright 2009 Chris Hoffman - would wrap when lengths were exactly the same
  */
-
 (function($) {
   $(function() {
     // NOTE: We have to use a <span> inside a max-width <div> for IE6

@@ -1,0 +1,22 @@
+h1. Abbreviator
+
+jQuery plugin for pixel-precise string abbreviation.
+
+h2. Demo
+
+"http://bentlegen.github.com/abbreviator/demo":http://bentlegen.github.com/abbreviator/demo
+
+h2. Usage
+
+Autofit mydiv's innerHTML content horizontally:
+ 
+<pre><code>$('#mydiv').abbrev();</code></pre>
+
+h2. License
+
+MIT License. See LICENSE for more information.
+
+h2. Credits
+
+ * Ben Vinegar
+ * Chris Hoffman
