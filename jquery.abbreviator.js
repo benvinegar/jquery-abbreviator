@@ -9,13 +9,17 @@
  *   http://www.opensource.org/licenses/mit-license.php
  */
 (function($) {
+  var $tmpDiv;
+  var $tmpSpan;
+  
   $(function() {
     // NOTE: We have to use a <span> inside a max-width <div> for IE6
-    $('body').append('\
-      <div id="abbreviator-tmp-div" style="width:9999px; left:-9999px; top:-9999px; display:block; position: absolute">\
-        <span id="abbreviator-tmp-span"></span>\
+    $tmpDiv = $('\
+      <div style="width:9999px; left:-9999px; top:-9999px; display:block; position: absolute">\
+        <span></span>\
       </div>'
-    );
+    ).appendTo('body');
+    $tmpSpan = $tmpDiv.children();
   });
 
   $.fn.abbrev = function() {
@@ -28,18 +32,18 @@
       // Append our tmp div to the container element we're about
       // to abbreviate, so that it inherits the containers CSS properties
       // (font, padding, etc.)
-      $("#abbreviator-tmp-div").appendTo(this);
+      $tmpDiv.appendTo(this);
 
       // Take one off for when the content exactly matches container
       // In Firefox 3 and Safari 3 the content will wrap without this
       var containerWidth = $this.width() - 1;
-      var contentWidth = $("#abbreviator-tmp-span").html(content).width();
+      var contentWidth = $tmpSpan.html(content).width();
 
       // If the content fits inside the container, then skip
       // to the next element
 
       if (contentWidth <= containerWidth) {
-        $('#abbreviator-tmp-div').appendTo('body');
+        $tmpDiv.appendTo('body');
         return;
       }
 
@@ -52,13 +56,13 @@
 
       var abbrevContent = content.substr(0, parseInt(l * coverage, 10));
 
-      while ($('#abbreviator-tmp-span').html(ellipsifyString(abbrevContent)).width() >= containerWidth) {
+      while ($tmpSpan.html(ellipsifyString(abbrevContent)).width() >= containerWidth) {
         abbrevContent = abbrevContent.substring(0, abbrevContent.length - 1);
       }
 
       // Return our tmp span back to the <body> element; otherwise it'll
       // be destroyed in the line below ...
-      $('#abbreviator-tmp-div').appendTo('body');
+      $tmpDiv.appendTo('body');
 
       $this.html(abbrString(ellipsifyString(abbrevContent), content));
     });
